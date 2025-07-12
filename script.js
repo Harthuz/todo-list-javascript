@@ -2,22 +2,31 @@ const input = document.getElementById('tarefaInput')
 const botao = document.getElementById('adicionarBtn')
 const lista = document.getElementById('listaTarefas')
 
-botao.addEventListener('click', () => {
-    const texto = input.value.trim()
+// Carrega tarefas do localStorage
+let tarefas = JSON.parse(localStorage.getItem('tarefas')) || []
 
-    if (texto !== '') {
+function salvarTarefas() {
+    localStorage.setItem('tarefas', JSON.stringify(tarefas))
+}
+
+function renderizarTarefas() {
+    lista.innerHTML = ''
+    tarefas.forEach((tarefa, index) => {
         const li = document.createElement('li')
+        if (tarefa.completa) li.classList.add('completed')
 
-        // Cria span para texto da tarefa
+        // Texto da tarefa
         const spanTexto = document.createElement('span')
-        spanTexto.textContent = texto
+        spanTexto.textContent = tarefa.texto
         li.appendChild(spanTexto)
 
         // Botão Remover
         const botaoRemover = document.createElement('button')
         botaoRemover.textContent = '❌'
         botaoRemover.addEventListener('click', () => {
-            lista.removeChild(li)
+            tarefas.splice(index, 1)
+            salvarTarefas()
+            renderizarTarefas()
         })
         li.appendChild(botaoRemover)
 
@@ -25,39 +34,50 @@ botao.addEventListener('click', () => {
         const botaoEditar = document.createElement('button')
         botaoEditar.textContent = '✏️'
         botaoEditar.addEventListener('click', () => {
-            // Troca o texto por um input
             const inputEditar = document.createElement('input')
             inputEditar.type = 'text'
-            inputEditar.value = spanTexto.textContent
+            inputEditar.value = tarefa.texto
             li.replaceChild(inputEditar, spanTexto)
             inputEditar.focus()
 
-            // Botão Salvar
             const botaoSalvar = document.createElement('button')
             botaoSalvar.textContent = '✅'
             botaoSalvar.addEventListener('click', () => {
                 const novoTexto = inputEditar.value.trim()
                 if (novoTexto !== '') {
-                    spanTexto.textContent = novoTexto
-                    li.replaceChild(spanTexto, inputEditar)
+                    tarefa.texto = novoTexto
+                    salvarTarefas()
+                    renderizarTarefas()
                 }
-                li.removeChild(botaoSalvar)
             })
             li.appendChild(botaoSalvar)
         })
         li.appendChild(botaoEditar)
 
-        //Botão Completar
+        // Botão Completar
         const botaoCompletar = document.createElement('button')
-        botaoCompletar.textContent = '☐'
+        botaoCompletar.textContent = tarefa.completa ? '☑️' : '☐'
         botaoCompletar.addEventListener('click', () => {
-            li.classList.toggle('completed')
-            botaoCompletar.textContent = li.classList.contains('completed') ? '☑️' : '☐'
+            tarefa.completa = !tarefa.completa
+            salvarTarefas()
+            renderizarTarefas()
         })
         li.appendChild(botaoCompletar)
 
         lista.appendChild(li)
+    })
+}
+
+botao.addEventListener('click', () => {
+    const texto = input.value.trim()
+    if (texto !== '') {
+        tarefas.push({ texto, completa: false })
+        salvarTarefas()
+        renderizarTarefas()
         input.value = ''
         input.focus()
     }
 })
+
+// Renderiza ao carregar
+renderizarTarefas()
