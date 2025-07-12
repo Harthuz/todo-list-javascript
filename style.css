@@ -61,7 +61,7 @@ body {
     padding: 4px;
 }
 
-#listaTarefas li[class="completed"] {
+#listaTarefas li.completed span {
     color: gray;
     text-decoration: line-through;
 }
