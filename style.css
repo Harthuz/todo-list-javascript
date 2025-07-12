@@ -1,0 +1,77 @@
+:root {
+    --cor-primaria: #2C64F4;
+    --cor-primaria-escura: #1F4AD1;
+    --cor-primaria-clara: #5B8BFF;
+    --cor-suave: #D6E1FF;
+    --cor-fundo: #F5F7FA;
+    --cor-texto: #1C1C1C;
+    --cor-texto-claro: #FFFFFF;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+body {
+    background-color: var(--cor-suave);
+}
+
+.container {
+    background-color: var(--cor-primaria-clara);
+    display: grid;
+    justify-content: center;
+    color: var(--cor-fundo);
+    padding: 3px 0px 3px 0px;
+}
+
+.main {
+    display: grid;
+    justify-content: center;
+    padding: 40px 0px 0px 0px;
+}
+
+.input-tarefa-button {
+    display: flex;
+    justify-content: center;
+}
+
+#adicionarBtn {
+    background-color: var(--cor-primaria-clara);
+    border: none;
+    width: 21px;
+    height: 21px;
+    color: white;
+    margin: 0px 10px;
+}
+
+#tarefaInput {
+    border: none;
+    padding: 3px;
+}
+
+#listaTarefas li {
+    display: flex;
+    list-style-type: none;
+    background-color: var(--cor-primaria-clara);
+    color: var(--cor-texto-claro);
+    margin: 15px 0px 5px 0px;
+    padding: 4px;
+}
+
+#listaTarefas li[class="completed"] {
+    color: gray;
+    text-decoration: line-through;
+}
+
+#listaTarefas span {
+    width: 157px;
+}
+
+#listaTarefas button {
+    border: none;
+    background-color: rgba(151, 84, 36, 0);
+    padding: 0px 2px;
+}
